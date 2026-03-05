@@ -12,38 +12,28 @@ function compareTiebreakerDesc(a: number[], b: number[]): number {
   for (let i = 0; i < maxLength; i += 1) {
     const left = a[i] ?? 0;
     const right = b[i] ?? 0;
-    if (left !== right) {
-      return left - right;
-    }
+    if (left !== right) return left - right;
   }
   return 0;
 }
 
 // Compare 2 mains deja evaluees.
 // Ordre: categorie -> tiebreaker -> ordre deterministe des cartes.
-function compareEvaluatedHands(a: EvaluatedHand5, b: EvaluatedHand5): number {
+export function compareEvaluatedHands(a: EvaluatedHand5, b: EvaluatedHand5): number {
   const categoryDiff = HAND_CATEGORY_STRENGTH[a.category] - HAND_CATEGORY_STRENGTH[b.category];
-  if (categoryDiff !== 0) {
-    return categoryDiff;
-  }
+  if (categoryDiff !== 0) return categoryDiff;
 
   const tiebreakerDiff = compareTiebreakerDesc(a.tiebreaker, b.tiebreaker);
-  if (tiebreakerDiff !== 0) {
-    return tiebreakerDiff;
-  }
+  if (tiebreakerDiff !== 0) return tiebreakerDiff;
 
   for (let i = 0; i < 5; i += 1) {
-    const rankDiff = RANK_VALUES[a.chosen5[i].rank] - RANK_VALUES[b.chosen5[i].rank];
-    if (rankDiff !== 0) {
-      return rankDiff;
-    }
-
-    const suitDiff =
-      DETERMINISTIC_SUIT_STRENGTH[a.chosen5[i].suit] -
-      DETERMINISTIC_SUIT_STRENGTH[b.chosen5[i].suit];
-    if (suitDiff !== 0) {
-      return suitDiff;
-    }
+    const leftCard = a.chosen5[i];
+    const rightCard = b.chosen5[i];
+    if (!leftCard || !rightCard) return 0;
+    const rankDiff = RANK_VALUES[leftCard.rank] - RANK_VALUES[rightCard.rank];
+    if (rankDiff !== 0) return rankDiff;
+    const suitDiff = DETERMINISTIC_SUIT_STRENGTH[leftCard.suit] - DETERMINISTIC_SUIT_STRENGTH[rightCard.suit];
+    if (suitDiff !== 0) return suitDiff;
   }
 
   return 0;
@@ -70,9 +60,7 @@ function generate5CardCombinations(cards: Card[]): Card[][] {
 }
 
 export function bestHandFrom7(cards: Card[]): EvaluatedHand5 {
-  if (cards.length !== 7) {
-    throw new Error("bestHandFrom7 attend exactement 7 cartes");
-  }
+  if (cards.length !== 7) throw new Error("bestHandFrom7 attend exactement 7 cartes");
 
   const combinations = generate5CardCombinations(cards);
 
@@ -80,9 +68,7 @@ export function bestHandFrom7(cards: Card[]): EvaluatedHand5 {
   let bestHand = evaluate5(combinations[0]);
   for (let i = 1; i < combinations.length; i += 1) {
     const candidate = evaluate5(combinations[i]);
-    if (compareEvaluatedHands(candidate, bestHand) > 0) {
-      bestHand = candidate;
-    }
+    if (compareEvaluatedHands(candidate, bestHand) > 0) bestHand = candidate;
   }
 
   return bestHand;
