@@ -86,3 +86,14 @@ Details d'ordre:
 - Straight et Straight flush:
   du plus haut au plus bas
   (cas `A-2-3-4-5` represente en `5-4-3-2-A`)
+- si plusieurs `chosen5` ont exactement la meme force,
+  on garde la premiere combinaison rencontree (ordre deterministe, sans utiliser la couleur)
+
+## Regle de comparaison
+
+Pour comparer 2 mains:
+- categorie
+- puis tiebreaker
+- si tout est egal: egalite (split)
+
+La couleur ne sert jamais a departager 2 mains.

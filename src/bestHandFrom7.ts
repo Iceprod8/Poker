@@ -1,11 +1,7 @@
 import type { Card } from "./card";
 import { evaluate5, type EvaluatedHand5 } from "./evaluate5";
 import { assertNoDuplicateCards } from "./inputValidation";
-import {
-  DETERMINISTIC_SUIT_STRENGTH,
-  HAND_CATEGORY_STRENGTH,
-  RANK_VALUES,
-} from "./pokerConstants";
+import { HAND_CATEGORY_STRENGTH } from "./pokerConstants";
 
 // Compare 2 listes de tiebreaker de gauche a droite.
 function compareTiebreakerDesc(a: number[], b: number[]): number {
@@ -19,25 +15,13 @@ function compareTiebreakerDesc(a: number[], b: number[]): number {
 }
 
 // Compare 2 mains deja evaluees.
-// Ordre: categorie -> tiebreaker -> ordre deterministe des cartes.
+// Ordre: categorie -> tiebreaker.
+// Si tout est egal, c'est une egalite (pas de departage par couleur).
 export function compareEvaluatedHands(a: EvaluatedHand5, b: EvaluatedHand5): number {
   const categoryDiff = HAND_CATEGORY_STRENGTH[a.category] - HAND_CATEGORY_STRENGTH[b.category];
   if (categoryDiff !== 0) return categoryDiff;
 
-  const tiebreakerDiff = compareTiebreakerDesc(a.tiebreaker, b.tiebreaker);
-  if (tiebreakerDiff !== 0) return tiebreakerDiff;
-
-  for (let i = 0; i < 5; i += 1) {
-    const leftCard = a.chosen5[i];
-    const rightCard = b.chosen5[i];
-    if (!leftCard || !rightCard) return 0;
-    const rankDiff = RANK_VALUES[leftCard.rank] - RANK_VALUES[rightCard.rank];
-    if (rankDiff !== 0) return rankDiff;
-    const suitDiff = DETERMINISTIC_SUIT_STRENGTH[leftCard.suit] - DETERMINISTIC_SUIT_STRENGTH[rightCard.suit];
-    if (suitDiff !== 0) return suitDiff;
-  }
-
-  return 0;
+  return compareTiebreakerDesc(a.tiebreaker, b.tiebreaker);
 }
 
 // Genere toutes les combinaisons de 5 cartes parmi les 7 (21 au total).

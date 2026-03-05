@@ -31,7 +31,7 @@ describe("bestHandFrom7", () => {
     const resultat = bestHandFrom7(cartes);
 
     expect(resultat.category).toBe("Straight");
-    expect(versTexte(resultat.chosen5)).toEqual(["9h", "8d", "7c", "6s", "5c"]);
+    expect(versTexte(resultat.chosen5)).toEqual(["9h", "8d", "7c", "6s", "5d"]);
   });
 
   it("rejette les doublons", () => {
