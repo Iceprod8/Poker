@@ -1,0 +1,24 @@
+{
+  "name": "poker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iceprod8/Poker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Iceprod8/Poker/issues"
+  },
+  "homepage": "https://github.com/Iceprod8/Poker#readme",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
