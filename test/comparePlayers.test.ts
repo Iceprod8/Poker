@@ -43,4 +43,14 @@ describe("comparePlayers", () => {
     expect(versTexte(resultat.players[0].chosen5)).toEqual(["Ah", "Kd", "Qd", "Jh", "Tc"]);
     expect(versTexte(resultat.players[1].chosen5)).toEqual(["Ah", "Kd", "Qd", "Jh", "Tc"]);
   });
+
+  it("rejette les doublons entre board et joueurs", () => {
+    const board = ["Ah", "Kd", "Qd", "Jh", "Tc"].map(parseCard);
+    const joueurs = [
+      { id: "p1", cards: ["Ah", "3d"].map(parseCard) },
+      { id: "p2", cards: ["4s", "5h"].map(parseCard) },
+    ];
+
+    expect(() => comparePlayers(board, joueurs)).toThrow("comparePlayers contient des cartes en double");
+  });
 });

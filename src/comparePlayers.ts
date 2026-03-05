@@ -1,5 +1,6 @@
 import type { Card } from "./card";
 import { bestHandFrom7, compareEvaluatedHands } from "./bestHandFrom7";
+import { assertNoDuplicateCards } from "./inputValidation";
 import type { HandCategory } from "./pokerConstants";
 
 export type PlayerInput = {
@@ -21,7 +22,12 @@ export type ComparePlayersResult = {
 
 export function comparePlayers(board: Card[], players: PlayerInput[]): ComparePlayersResult {
   if (board.length !== 5) throw new Error("comparePlayers attend exactement 5 cartes de board");
+  assertNoDuplicateCards(board, "comparePlayers");
   if (players.length === 0) return { winners: [], players: [] };
+
+  const allPlayerCards = players.flatMap((player) => player.cards);
+  assertNoDuplicateCards([...board, ...allPlayerCards], "comparePlayers");
+
   const details = players.map((player) => {
     if (player.cards.length !== 2) throw new Error(`Le joueur ${player.id} doit avoir exactement 2 cartes`);
     const hand = bestHandFrom7([...board, ...player.cards]);

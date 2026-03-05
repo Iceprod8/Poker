@@ -33,4 +33,10 @@ describe("bestHandFrom7", () => {
     expect(resultat.category).toBe("Straight");
     expect(versTexte(resultat.chosen5)).toEqual(["9h", "8d", "7c", "6s", "5c"]);
   });
+
+  it("rejette les doublons", () => {
+    const cartes = ["Ah", "Kh", "Qh", "Jh", "Th", "2c", "Ah"].map(parseCard);
+
+    expect(() => bestHandFrom7(cartes)).toThrow("bestHandFrom7 contient des cartes en double");
+  });
 });

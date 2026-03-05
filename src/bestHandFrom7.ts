@@ -1,5 +1,6 @@
 import type { Card } from "./card";
 import { evaluate5, type EvaluatedHand5 } from "./evaluate5";
+import { assertNoDuplicateCards } from "./inputValidation";
 import {
   DETERMINISTIC_SUIT_STRENGTH,
   HAND_CATEGORY_STRENGTH,
@@ -61,6 +62,7 @@ function generate5CardCombinations(cards: Card[]): Card[][] {
 
 export function bestHandFrom7(cards: Card[]): EvaluatedHand5 {
   if (cards.length !== 7) throw new Error("bestHandFrom7 attend exactement 7 cartes");
+  assertNoDuplicateCards(cards, "bestHandFrom7");
 
   const combinations = generate5CardCombinations(cards);
 

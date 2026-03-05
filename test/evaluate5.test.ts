@@ -96,4 +96,10 @@ describe("evaluate5", () => {
     expect(resultat.category).toBe("Straight flush");
     expect(versTexte(resultat.chosen5)).toEqual(["9h", "8h", "7h", "6h", "5h"]);
   });
+
+  it("rejette les doublons", () => {
+    const cartes = ["Ah", "Ah", "Kd", "Qc", "Js"].map(parseCard);
+
+    expect(() => evaluate5(cartes)).toThrow("evaluate5 contient des cartes en double");
+  });
 });

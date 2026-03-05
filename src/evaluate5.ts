@@ -1,4 +1,5 @@
 import type { Card, Rank } from "./card";
+import { assertNoDuplicateCards } from "./inputValidation";
 import { RANK_VALUES, SUIT_ORDER, type HandCategory } from "./pokerConstants";
 
 export type { HandCategory } from "./pokerConstants";
@@ -129,6 +130,7 @@ function isFlush(cards: Card[]): boolean {
 
 export function evaluate5(cards: Card[]): EvaluatedHand5 {
   if (cards.length !== 5) throw new Error("evaluate5 attend exactement 5 cartes");
+  assertNoDuplicateCards(cards, "evaluate5");
 
   const sortedCards = [...cards].sort(compareCarteDesc);
   const groupes = groupByRank(cards);
