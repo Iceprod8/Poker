@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Iceprod8/Poker#readme",
   "devDependencies": {
+    "@types/node": "^25.3.3",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   }
